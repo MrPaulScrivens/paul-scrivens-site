@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>paul scrivens</title>
-<meta name="description" content="I run five brands at once. On purpose. One letter most weeks about what got built, what it made, and what it cost to learn.">
+<meta name="description" content="I run too many brands at once. On purpose. One letter most weeks about what got built, what it made, and what it cost to learn.">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -21,15 +21,16 @@
     font-size: 15px;
     line-height: 1.75;
   }
-  .page { max-width: 880px; margin: 0 auto; padding: 64px 24px 96px; }
-  .measure { max-width: 620px; margin: 0 auto; }
+  ::selection { background: var(--blood); color: var(--paper); }
+  .page { max-width: 900px; margin: 0 auto; padding: 56px 24px 96px; }
   a { color: var(--blood); text-decoration: underline; text-underline-offset: 3px; }
   p { margin-bottom: 18px; }
   .muted { color: var(--muted); }
   em { font-style: italic; }
+
   nav {
     display: flex; justify-content: space-between; align-items: baseline;
-    font-size: 13px; margin-bottom: 72px; gap: 16px; flex-wrap: wrap;
+    font-size: 13px; gap: 16px; flex-wrap: wrap;
   }
   nav .links { display: flex; gap: 18px; }
   .wordmark { font-weight: 500; color: var(--ink); text-decoration: none; }
@@ -39,55 +40,135 @@
     animation: blink 1.1s steps(1) infinite;
   }
   @keyframes blink { 50% { opacity: 0; } }
-  h2 {
-    font-size: 13px; font-weight: 500;
-    margin: 72px 0 20px; padding-top: 20px;
-    border-top: 1.5px solid var(--ink);
+
+  /* ---- the hero types itself ---- */
+  .hero { margin: 104px 0 0; font-weight: 500; font-size: clamp(27px, 5.4vw, 48px); line-height: 1.3; }
+  .hero .line {
+    display: block; white-space: nowrap; overflow: hidden;
+    width: 0; animation: type 1s steps(17, end) forwards;
   }
-  form { display: flex; gap: 8px; max-width: 440px; flex-wrap: wrap; }
-  input[type="email"] {
-    flex: 1; min-width: 200px;
-    border: 1.5px solid var(--ink); background: #fff; color: var(--ink);
-    padding: 10px 12px; font: inherit; font-size: 13px; border-radius: 0;
+  .hero .l1 { --w: 21ch; animation-delay: .25s; animation-duration: 1.1s; animation-timing-function: steps(21, end); }
+  .hero .l2 { --w: 8ch;  margin-left: 5ch;  animation-delay: 1.5s; animation-duration: .5s;  animation-timing-function: steps(8, end); }
+  .hero .l3 { --w: 11ch; margin-left: 10ch; animation-delay: 2.2s; animation-duration: .65s; animation-timing-function: steps(11, end); display: inline-block; vertical-align: bottom; }
+  @keyframes type { to { width: var(--w); } }
+  .hero .tail { white-space: nowrap; margin-left: 10ch; }
+  .hero .tail .line { margin-left: 0; }
+  @keyframes arrive { to { opacity: 1; } }
+
+  /* ---- the typewriter asks a question, then waits for you ---- */
+  .hero-form { margin: 72px 0 0 248px; max-width: 620px; }
+  .hero-form form { max-width: none; }
+  .hero-form label {
+    display: block; font-weight: 500;
+    font-size: clamp(16px, 2vw, 19px);
+    white-space: nowrap; overflow: hidden;
+    width: 0; --w: 28ch;
+    animation: type .85s steps(28, end) 3.35s forwards;
   }
-  input[type="email"]::placeholder { color: var(--muted); }
-  button {
-    border: 1.5px solid var(--blood); background: var(--blood); color: var(--paper);
-    padding: 10px 16px; font: inherit; font-size: 13px; cursor: pointer; border-radius: 0;
+  .hero-form form { margin-top: 16px; opacity: 0; animation: arrive 0s 4.3s forwards; }
+  .hero-form .note {
+    font-size: 13px; margin: 12px 0 0;
+    opacity: 0; animation: arrive 0s 4.3s forwards;
   }
-  .intro {
+  .blank { position: relative; flex: 1; min-width: 200px; display: flex; }
+  .blank input { width: 100%; }
+  .fakecursor {
+    position: absolute; left: 2px; bottom: 13px;
+    width: .6em; height: 1.1em; background: var(--blood);
+    pointer-events: none;
+    opacity: 0; animation: arrive 0s 4.3s forwards, blink 1.1s 4.3s steps(1) infinite;
+  }
+  .blank input:focus ~ .fakecursor,
+  .blank input:not(:placeholder-shown) ~ .fakecursor { animation: none; opacity: 0; }
+
+  /* ---- typed-report grid: label gutter + prose column ---- */
+  section {
     display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 52px;
-    align-items: start;
-    margin-bottom: 12px;
+    grid-template-columns: 200px minmax(0, 620px);
+    column-gap: 48px;
+    margin-top: 104px;
   }
-  .intro .lede p:first-child {
-    font-size: 21px; line-height: 1.5;
-    margin-bottom: 26px;
+  .gutter { font-size: 12px; }
+  .gutter h2 {
+    font-size: 12px; font-weight: 500;
+    border-top: 1.5px solid var(--ink);
+    padding-top: 14px;
   }
-  .intro .lede p:last-child { margin-bottom: 0; }
-  .intro figure { margin: 0; }
-  .intro img {
+  .gutter .sec-num { color: var(--muted); display: block; }
+  .content { padding-top: 14px; border-top: 1.5px solid var(--ink); }
+
+  /* photo lives in the margin, like it's stapled to the file */
+  .gutter figure { margin-top: 28px; }
+  .gutter img {
     display: block; width: 100%; height: auto;
     filter: grayscale(1) contrast(1.06);
     border: 1.5px solid var(--ink);
   }
-  .intro figcaption {
-    font-size: 12px; color: var(--muted);
-    margin-top: 10px; line-height: 1.6;
+  .gutter figcaption { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+  /* ---- the ledger ---- */
+  .ledger { grid-column: 1 / -1; margin-top: 20px; }
+  .ledger-row { border-top: 1.5px solid var(--ink); padding: 18px 0 20px; }
+  .ledger-row:first-child { border-top: none; padding-top: 0; }
+  .row-line { display: flex; align-items: baseline; gap: 12px; }
+  .row-line .num { color: var(--muted); font-size: 13px; flex: none; width: 2.4ch; }
+  .row-line .name { font-weight: 500; flex: none; }
+  .row-line .name a { font-weight: 500; }
+  .row-line .name.ink { color: var(--ink); }
+  .row-line .leader { flex: 1; overflow: hidden; white-space: nowrap; color: var(--muted); font-size: 13px; }
+  .row-line .leader::before {
+    content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
+    letter-spacing: 2px;
   }
-  .brand-row { margin-bottom: 22px; }
-  .brand-row .name { font-weight: 500; }
-  .brand-row .name a { font-weight: 500; }
-  @media (max-width: 720px) {
-    .intro { grid-template-columns: 1fr; gap: 0; }
-    .intro figure { display: none; }
+  .row-line .site { flex: none; font-size: 13px; }
+  .row-desc { color: var(--muted); margin: 4px 0 0 calc(2.4ch + 12px); max-width: 560px; }
+
+  /* ---- letters form ---- */
+  form { display: flex; gap: 10px; max-width: 460px; flex-wrap: wrap; align-items: flex-end; }
+  #letters form { margin-top: 26px; }
+  input[type="email"] {
+    flex: 1; min-width: 200px;
+    border: none; border-bottom: 1.5px solid var(--ink);
+    background: transparent; color: var(--ink);
+    padding: 10px 2px; font: inherit; font-size: 13px; border-radius: 0;
   }
+  input[type="email"]::placeholder { color: var(--muted); }
+  input[type="email"]:focus { outline: none; border-bottom-color: var(--blood); }
+  button {
+    border: 1.5px solid var(--blood); background: var(--blood); color: var(--paper);
+    padding: 10px 16px; font: inherit; font-size: 13px; cursor: pointer; border-radius: 0;
+  }
+
   footer {
-    max-width: 620px; margin: 88px auto 0; padding-top: 20px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-top: 120px; padding-top: 16px;
     border-top: 1.5px solid var(--ink);
     font-size: 13px;
+  }
+  footer p { margin: 0; }
+
+  @media (max-width: 720px) {
+    .hero { margin: 72px 0 0; }
+    .hero-form { margin: 52px 0 0; }
+    .hero .l2 { margin-left: 2ch; }
+    .hero .l3, .hero .tail { margin-left: 4ch; }
+    section { grid-template-columns: 1fr; row-gap: 0; margin-top: 80px; }
+    .gutter h2 { border-top: none; padding-top: 0; margin-bottom: 12px; }
+    .gutter .sec-num { display: inline; margin-right: 1ch; }
+    .gutter figure { max-width: 220px; margin: 0 0 28px; }
+    .content { border-top: none; padding-top: 0; }
+    .ledger .content-note { margin-left: 0; }
+    .row-line .site { display: none; }
+    .row-line .leader { display: none; }
+    .row-desc { margin-left: calc(2.4ch + 12px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero .line { width: auto; animation: none; }
+    .cursor { opacity: 1; animation: none; }
+    .hero-form label { width: auto; animation: none; }
+    .hero-form form, .hero-form .note { opacity: 1; animation: none; }
+    .fakecursor { opacity: 1; animation: none; }
   }
 </style>
 </head>
@@ -95,7 +176,7 @@
 <div class="page">
 
   <nav>
-    <a class="wordmark" href="/">paul scrivens<span class="cursor"></span></a>
+    <a class="wordmark" href="/">paul scrivens</a>
     <span class="links">
       <a href="#letters">letters</a>
       <a href="#brands">the brands</a>
@@ -104,70 +185,136 @@
   </nav>
 
   <main>
-    <div class="intro">
-      <div class="lede">
-        <p>I run five brands at once. On purpose.</p>
 
-        <p>Otters, zebras, yaks, sloths, and one underachiever. Different voices, different looks, different money. None of them know the others exist.</p>
+    <h1 class="hero" aria-label="i run too many brands at once. on purpose.">
+      <span class="line l1" aria-hidden="true">i run too many brands</span>
+      <span class="line l2" aria-hidden="true">at once.</span>
+      <span class="tail" aria-hidden="true"><span class="line l3">on purpose.</span></span>
+    </h1>
 
-        <p>Why five? Because I have the kind of brain that was never going to pick one thing. I spent years treating that like a problem to fix. Now it&rsquo;s the whole operation.</p>
+    <div class="hero-form">
+      <label for="email-top">where do i send the letters?</label>
+      <form action="#" method="post">
+        <span class="blank">
+          <input id="email-top" type="email" name="email" placeholder=" " required>
+          <span class="fakecursor" aria-hidden="true"></span>
+        </span>
+        <button type="submit">get the letters</button>
+      </form>
+      <p class="note muted">one letter, most weeks. numbers included.</p>
+    </div>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 01</span>the operation</h2>
+        <figure>
+          <img src="/paul.jpg" alt="Paul Scrivens sitting sideways in a yellow chair, laughing at something off-camera" width="800" height="1200">
+          <figcaption>the costume-maker. no costume.</figcaption>
+        </figure>
       </div>
-      <figure>
-        <img src="/paul.jpg" alt="Paul Scrivens sitting sideways in a yellow chair, laughing at something off-camera" width="800" height="1200">
-        <figcaption>the sixth brand. no costume.</figcaption>
-      </figure>
-    </div>
+      <div class="content">
+        <p>Otters, zebras, yaks, sloths, an underachiever. The list keeps growing.</p>
+        <p>Different voices, different money. None of them know the others exist.</p>
+        <p>Why so many? Because I have the kind of brain that was never going to pick one thing.</p>
+        <p>I spent years treating that like a problem to fix. Now it&rsquo;s the whole operation.</p>
+        <p style="margin-bottom:0;">No team. No agency behind the curtain. One person, a closet full of costumes, and a filing system that holds it together.</p>
+      </div>
+    </section>
 
-    <div class="measure">
+    <section id="brands">
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 02</span>the ledger</h2>
+      </div>
+      <div class="content">
+        <p style="margin-bottom:0;">The roster, as of this writing. Each one runs its own world. I just work here.</p>
+      </div>
 
-    <h2 id="letters">the letters</h2>
+      <div class="ledger">
+        <div class="ledger-row">
+          <div class="row-line">
+            <span class="num">01</span>
+            <span class="name"><a href="https://wobblyotters.com" target="_blank" rel="noopener">wobbly otters</a></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="site muted">wobblyotters.com</span>
+          </div>
+          <p class="row-desc">The membership. One-person businesses building a content machine out of plain text files.</p>
+        </div>
 
-    <p>One email, most weeks. What got built, what it made, what it cost to learn.</p>
+        <div class="ledger-row">
+          <div class="row-line">
+            <span class="num">02</span>
+            <span class="name"><a href="https://talentedunderachiever.com" target="_blank" rel="noopener">talented underachiever</a></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="site muted">talentedunderachiever.com</span>
+          </div>
+          <p class="row-desc">For smart people getting out-earned by dumbasses. Yes, it stings. It&rsquo;s supposed to.</p>
+        </div>
 
-    <p>Numbers included. The good months and the embarrassing ones.</p>
+        <div class="ledger-row">
+          <div class="row-line">
+            <span class="num">03</span>
+            <span class="name"><a href="https://happyzebras.com" target="_blank" rel="noopener">happy zebras</a></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="site muted">happyzebras.com</span>
+          </div>
+          <p class="row-desc">Social content, done for you, so business owners can get back to the part they actually like.</p>
+        </div>
 
-    <form action="#" method="post">
-      <input type="email" name="email" placeholder="you@wherever.com" required>
-      <button type="submit">get the letters</button>
-    </form>
+        <div class="ledger-row">
+          <div class="row-line">
+            <span class="num">04</span>
+            <span class="name"><a href="https://bumblingyaks.com" target="_blank" rel="noopener">bumbling yaks</a></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="site muted">bumblingyaks.com</span>
+          </div>
+          <p class="row-desc">Astrology and human design for people who lost the gratitude journal. The chart runs anyway.</p>
+        </div>
 
-    <p class="muted" style="font-size:13px; margin-top:14px;">No course waiting at the end. It&rsquo;s a letter.</p>
+        <div class="ledger-row">
+          <div class="row-line">
+            <span class="num">05</span>
+            <span class="name"><a href="https://droolingsloths.com" target="_blank" rel="noopener">drooling sloths</a></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="site muted">droolingsloths.com</span>
+          </div>
+          <p class="row-desc">AI agents installed into small businesses. The board stays green. The client stays asleep.</p>
+        </div>
 
-    <h2 id="brands">the brands</h2>
+        <div class="ledger-row">
+          <div class="row-line">
+            <span class="num">00</span>
+            <span class="name ink">paul scrivens</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="site muted">you&rsquo;re reading it</span>
+          </div>
+          <p class="row-desc">The one without a costume.</p>
+        </div>
+      </div>
+    </section>
 
-    <p style="margin-bottom:28px;">Five so far. Each one runs its own world. I just work here.</p>
+    <section id="letters">
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 03</span>the letters</h2>
+      </div>
+      <div class="content">
+        <p>One email, most weeks. What got built, what it made, what it cost to learn.</p>
+        <p>The letters cover what it takes to run all of them without a team. Mostly the mistakes.</p>
+        <p style="margin-bottom:0;">Numbers included. The good months and the embarrassing ones.</p>
 
-    <div class="brand-row">
-      <span class="name"><a href="https://wobblyotters.com" target="_blank" rel="noopener">wobbly otters</a></span><br>
-      <span class="muted">The membership. One-person businesses building a content machine out of plain text files.</span>
-    </div>
+        <form action="#" method="post">
+          <input type="email" name="email" placeholder="you@wherever.com" required>
+          <button type="submit">get the letters</button>
+        </form>
 
-    <div class="brand-row">
-      <span class="name"><a href="https://talentedunderachiever.com" target="_blank" rel="noopener">talented underachiever</a></span><br>
-      <span class="muted">For smart people getting out-earned by dumber ones. Yes, it stings. It&rsquo;s supposed to.</span>
-    </div>
+        <p class="muted" style="font-size:13px; margin-top:14px; margin-bottom:0;">No course waiting at the end. It&rsquo;s a letter.</p>
+      </div>
+    </section>
 
-    <div class="brand-row">
-      <span class="name"><a href="https://happyzebras.com" target="_blank" rel="noopener">happy zebras</a></span><br>
-      <span class="muted">Social content, done for you, so business owners can get back to the part they actually like.</span>
-    </div>
-
-    <div class="brand-row">
-      <span class="name"><a href="https://bumblingyaks.com" target="_blank" rel="noopener">bumbling yaks</a></span><br>
-      <span class="muted">Astrology and human design for people who lost the gratitude journal. The chart runs anyway.</span>
-    </div>
-
-    <div class="brand-row">
-      <span class="name"><a href="https://droolingsloths.com" target="_blank" rel="noopener">drooling sloths</a></span><br>
-      <span class="muted">AI agents installed into small businesses. The board stays green. The client stays asleep.</span>
-    </div>
-
-    <p class="muted" style="margin-top:32px;">The letters cover what it takes to run all of them without a team. Mostly the mistakes.</p>
-    </div>
   </main>
 
   <footer>
-    <p class="muted" style="margin-bottom:0;">paul scrivens. five brands, one costume-maker.</p>
+    <p class="muted">the brands wear the costumes. paul doesn&rsquo;t.</p>
+    <p class="muted">set in jetbrains mono. one red.</p>
   </footer>
 
 </div>
