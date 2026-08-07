@@ -57,11 +57,16 @@
   }
   .intro {
     display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 36px;
+    grid-template-columns: 1fr 340px;
+    gap: 52px;
     align-items: start;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
+  .intro .lede p:first-child {
+    font-size: 21px; line-height: 1.5;
+    margin-bottom: 26px;
+  }
+  .intro .lede p:last-child { margin-bottom: 0; }
   .intro figure { margin: 0; }
   .intro img {
     display: block; width: 100%; height: auto;
@@ -76,8 +81,8 @@
   .brand-row .name { font-weight: 500; }
   .brand-row .name a { font-weight: 500; }
   @media (max-width: 720px) {
-    .intro { grid-template-columns: 1fr; gap: 24px; }
-    .intro figure { max-width: 260px; }
+    .intro { grid-template-columns: 1fr; gap: 0; }
+    .intro figure { display: none; }
   }
   footer {
     max-width: 620px; margin: 88px auto 0; padding-top: 20px;
@@ -100,19 +105,17 @@
 
   <main>
     <div class="intro">
-      <figure>
-        <img src="/paul.jpg" alt="Paul Scrivens sitting sideways in a yellow chair, laughing at something off-camera" width="800" height="1200">
-        <figcaption>the sixth brand. no costume.</figcaption>
-      </figure>
-      <div>
+      <div class="lede">
         <p>I run five brands at once. On purpose.</p>
 
         <p>Otters, zebras, yaks, sloths, and one underachiever. Different voices, different looks, different money. None of them know the others exist.</p>
 
         <p>Why five? Because I have the kind of brain that was never going to pick one thing. I spent years treating that like a problem to fix. Now it&rsquo;s the whole operation.</p>
-
-        <p class="muted" style="margin-bottom:0;">That&rsquo;s the whole pitch. The letters are where the numbers live.</p>
       </div>
+      <figure>
+        <img src="/paul.jpg" alt="Paul Scrivens sitting sideways in a yellow chair, laughing at something off-camera" width="800" height="1200">
+        <figcaption>the sixth brand. no costume.</figcaption>
+      </figure>
     </div>
 
     <div class="measure">
