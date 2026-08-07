@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>about — paul scrivens</title>
+<meta name="description" content="I run six brands by myself. Five of them wear costumes. This is the one that doesn't.">
+<meta name="theme-color" content="#F4F4F0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="paul scrivens">
+<meta property="og:title" content="about — paul scrivens">
+<meta property="og:description" content="I run six brands by myself. Five of them wear costumes. This is the one that doesn't.">
+<meta property="og:url" content="https://paulscrivens.com/about/">
+<meta property="og:image" content="https://paulscrivens.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="about — paul scrivens">
+<meta name="twitter:description" content="I run six brands by myself. Five of them wear costumes. This is the one that doesn't.">
+<meta name="twitter:image" content="https://paulscrivens.com/og.png">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4F4F0;
+    --ink:   #1A1A1A;
+    --blood: #8B1A1A;
+    --muted: #7C7C7A;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  ::selection { background: var(--blood); color: var(--paper); }
+  .page { max-width: 900px; margin: 0 auto; padding: 56px 24px 96px; }
+  a { color: var(--blood); text-decoration: underline; text-underline-offset: 3px; }
+  p { margin-bottom: 18px; }
+  .muted { color: var(--muted); }
+  em { font-style: italic; }
+
+  nav {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 13px; gap: 16px; flex-wrap: wrap;
+  }
+  nav .links { display: flex; gap: 18px; }
+  .wordmark { font-weight: 500; color: var(--ink); text-decoration: none; }
+  .cursor {
+    display: inline-block; width: .6em; height: 1.05em;
+    background: var(--blood); vertical-align: text-bottom;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .filetag { margin: 96px 0 0; font-size: 12px; color: var(--muted); }
+  h1 { font-weight: 500; font-size: clamp(27px, 5.4vw, 44px); line-height: 1.3; margin-top: 6px; }
+
+  section {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 620px);
+    column-gap: 48px;
+    margin-top: 104px;
+  }
+  .gutter { font-size: 12px; }
+  .gutter h2 {
+    font-size: 12px; font-weight: 500;
+    border-top: 1.5px solid var(--ink);
+    padding-top: 14px;
+  }
+  .gutter .sec-num { color: var(--muted); display: block; }
+  .content { padding-top: 14px; border-top: 1.5px solid var(--ink); }
+  .content p:last-child { margin-bottom: 0; }
+
+  .gutter figure { margin-top: 28px; }
+  .gutter img {
+    display: block; width: 100%; height: auto;
+    filter: grayscale(1) contrast(1.06);
+    border: 1.5px solid var(--ink);
+  }
+  .gutter figcaption { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+
+  form { display: flex; gap: 10px; max-width: 460px; flex-wrap: wrap; align-items: flex-end; margin-top: 26px; }
+  input[type="email"] {
+    flex: 1; min-width: 200px;
+    border: none; border-bottom: 1.5px solid var(--ink);
+    background: transparent; color: var(--ink);
+    padding: 10px 2px; font: inherit; font-size: 13px; border-radius: 0;
+  }
+  input[type="email"]::placeholder { color: var(--muted); }
+  input[type="email"]:focus { outline: none; border-bottom-color: var(--blood); }
+  button {
+    border: 1.5px solid var(--blood); background: var(--blood); color: var(--paper);
+    padding: 10px 16px; font: inherit; font-size: 13px; cursor: pointer; border-radius: 0;
+  }
+
+  footer {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-top: 120px; padding-top: 16px;
+    border-top: 1.5px solid var(--ink);
+    font-size: 13px;
+  }
+  footer p { margin: 0; }
+
+  @media (max-width: 720px) {
+    .filetag { margin-top: 64px; }
+    section { grid-template-columns: 1fr; row-gap: 0; margin-top: 80px; }
+    .gutter h2 { border-top: none; padding-top: 0; margin-bottom: 12px; }
+    .gutter .sec-num { display: inline; margin-right: 1ch; }
+    .gutter figure { max-width: 220px; margin: 0 0 28px; }
+    .content { border-top: none; padding-top: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { opacity: 1; animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav>
+    <a class="wordmark" href="/">paul scrivens</a>
+    <span class="links">
+      <a href="/#letters">letters</a>
+      <a href="/#brands">the brands</a>
+    </span>
+  </nav>
+
+  <main>
+
+    <p class="filetag">personnel file · one entry</p>
+    <h1>about paul<span class="cursor" aria-hidden="true"></span></h1>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 01</span>the short version</h2>
+        <figure>
+          <img src="/paul.jpg" alt="Paul Scrivens sitting sideways in a yellow chair, laughing at something off-camera" width="800" height="1200">
+          <figcaption>the only photo you get. it&rsquo;s on the homepage too.</figcaption>
+        </figure>
+      </div>
+      <div class="content">
+        <p>I&rsquo;m Paul. I run six brands by myself &mdash; otters, zebras, yaks, sloths, an underachiever, and this one. Five of them wear costumes. I make the costumes.</p>
+        <p>I haven&rsquo;t worked for someone else in over fifteen years. I&rsquo;m the sole breadwinner for my family, which means the whole operation has one rule: it has to actually make money, not just look busy.</p>
+        <p>I have ADHD. I spent a long time treating that like the problem, and now it&rsquo;s the reason the portfolio exists &mdash; a brain that was never going to pick one thing, given six things instead.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 02</span>how it runs</h2>
+      </div>
+      <div class="content">
+        <p>No team. No agency behind the curtain. The whole thing runs on plain text files, a terminal, and a filing system that holds it together when my attention doesn&rsquo;t.</p>
+        <p>Each brand has its own voice, its own audience, and its own money. None of them mention me. This site is where the costumes come off and the numbers get read out loud &mdash; like <a href="/threads-ledger/">the threads ledger</a>, where I published the full stats of two years of posting, including the fourteen hundred posts that went nowhere.</p>
+        <p>I didn&rsquo;t start qualified. At 22 I defaulted on five credit cards. Most of what I know got learned the expensive way, which is why the letters lean on receipts instead of advice.</p>
+      </div>
+    </section>
+
+    <section id="letters">
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 03</span>the letters</h2>
+      </div>
+      <div class="content">
+        <p>One email, most weeks. What got built across the six brands, what it made, what it cost to learn. The good months and the embarrassing ones.</p>
+
+        <form action="#" method="post">
+          <input type="email" name="email" placeholder="you@wherever.com" required>
+          <button type="submit">get the letters</button>
+        </form>
+
+        <p class="muted" style="font-size:13px; margin-top:14px; margin-bottom:0;">No course waiting at the end. It&rsquo;s a letter.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="muted">the brands wear the costumes. paul doesn&rsquo;t.</p>
+    <p class="muted">set in jetbrains mono. one red.</p>
+  </footer>
+
+</div>
+</body>
+</html>
