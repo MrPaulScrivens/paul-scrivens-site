@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the threads ledger — paul scrivens</title>
+<meta name="description" content="Two years on Threads, 1,923 posts with real numbers, 3.28 million views. I pulled the whole ledger and read it. Sixteen posts did most of the work.">
+<meta name="theme-color" content="#F4F4F0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="paul scrivens">
+<meta property="og:title" content="the threads ledger">
+<meta property="og:description" content="Two years on Threads, 1,923 posts, 3.28 million views. Sixteen posts did most of the work. The full autopsy, numbers included.">
+<meta property="og:url" content="https://paulscrivens.com/threads-ledger/">
+<meta property="og:image" content="https://paulscrivens.com/threads-ledger/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="the threads ledger. 1,923 posts. 3.28 million views. sixteen posts did most of the work.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="the threads ledger">
+<meta name="twitter:description" content="Two years on Threads, 1,923 posts, 3.28 million views. Sixteen posts did most of the work. The full autopsy, numbers included.">
+<meta name="twitter:image" content="https://paulscrivens.com/threads-ledger/og.png">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4F4F0;
+    --ink:   #1A1A1A;
+    --blood: #8B1A1A;
+    --muted: #7C7C7A;
+    --rule:  rgba(26,26,26,.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  ::selection { background: var(--blood); color: var(--paper); }
+  .page { max-width: 900px; margin: 0 auto; padding: 56px 24px 96px; }
+  a { color: var(--blood); text-decoration: underline; text-underline-offset: 3px; }
+  p { margin-bottom: 18px; }
+  .muted { color: var(--muted); }
+  em { font-style: italic; }
+  strong { font-weight: 500; }
+  .blood { color: var(--blood); }
+
+  nav {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 13px; gap: 16px; flex-wrap: wrap;
+  }
+  nav .links { display: flex; gap: 18px; }
+  .wordmark { font-weight: 500; color: var(--ink); text-decoration: none; }
+  .cursor {
+    display: inline-block; width: .6em; height: 1.05em;
+    background: var(--blood); vertical-align: text-bottom;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---- header ---- */
+  .filetag { margin: 96px 0 0; font-size: 12px; color: var(--muted); }
+  h1 {
+    font-weight: 500; font-size: clamp(27px, 5.4vw, 44px); line-height: 1.3;
+    margin-top: 6px;
+  }
+  .dek { max-width: 620px; margin-top: 26px; }
+  .dek p:last-child { margin-bottom: 0; }
+
+  /* ---- the topline: a typed ledger, not tiles ---- */
+  .topline { max-width: 620px; margin: 56px 0 0; border-top: 1.5px solid var(--ink); }
+  .topline-row {
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 10px 0; border-bottom: 1.5px solid var(--rule);
+    font-size: 14px;
+  }
+  .topline-row .k { flex: none; }
+  .topline-row .leader { flex: 1; overflow: hidden; white-space: nowrap; color: var(--muted); font-size: 13px; }
+  .topline-row .leader::before {
+    content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
+    letter-spacing: 2px;
+  }
+  .topline-row .v { flex: none; font-weight: 500; }
+
+  /* ---- typed-report grid (matches the homepage) ---- */
+  section {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 620px);
+    column-gap: 48px;
+    margin-top: 104px;
+  }
+  .gutter { font-size: 12px; }
+  .gutter h2 {
+    font-size: 12px; font-weight: 500;
+    border-top: 1.5px solid var(--ink);
+    padding-top: 14px;
+  }
+  .gutter .sec-num { color: var(--muted); display: block; }
+  .content { padding-top: 14px; border-top: 1.5px solid var(--ink); }
+  .content p:last-child { margin-bottom: 0; }
+
+  /* ---- plates: full-width chart blocks ---- */
+  .plate { grid-column: 1 / -1; margin-top: 34px; }
+  .plate-title {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-size: 12px; color: var(--muted);
+    border-top: 1.5px solid var(--ink); padding: 10px 0 4px;
+  }
+  .legend { display: flex; gap: 20px; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .key { width: 14px; height: 11px; display: inline-block; border: 1px solid var(--ink); }
+  .key.solid { background: var(--ink); }
+  .key.hatch { background: repeating-linear-gradient(45deg, transparent 0 2.5px, var(--ink) 2.5px 3.75px); }
+  svg { display: block; overflow: visible; width: 100%; height: auto; }
+  svg text { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; fill: var(--muted); }
+  .axis { font-size: 11px; }
+  .dlabel { font-size: 11.5px; font-weight: 500; fill: var(--ink); }
+  .chart-note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+  #tip {
+    position: fixed; pointer-events: none; z-index: 50; display: none;
+    background: var(--ink); color: var(--paper);
+    padding: 8px 12px; font-size: 12px; line-height: 1.6; max-width: 280px;
+  }
+  #tip b { color: var(--paper); font-weight: 500; }
+
+  /* ---- the arsenal: ledger rows, not cards ---- */
+  .arsenal { grid-column: 1 / -1; margin-top: 24px; }
+  .arsenal-row { border-top: 1.5px solid var(--ink); padding: 18px 0 22px; }
+  .row-line { display: flex; align-items: baseline; gap: 12px; }
+  .row-line .num { color: var(--muted); font-size: 13px; flex: none; width: 2.4ch; }
+  .row-line .name { font-weight: 500; flex: none; }
+  .row-line .leader { flex: 1; overflow: hidden; white-space: nowrap; color: var(--muted); font-size: 13px; }
+  .row-line .leader::before {
+    content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
+    letter-spacing: 2px;
+  }
+  .row-line .stat { flex: none; font-size: 13px; }
+  .row-line .stat strong { font-weight: 500; }
+  .arsenal-row .desc { color: var(--muted); margin: 6px 0 0 calc(2.4ch + 12px); max-width: 620px; }
+  .arsenal-row .desc .ex { color: var(--ink); }
+  .usage { display: flex; gap: 18px; margin: 10px 0 0 calc(2.4ch + 12px); font-size: 12px; color: var(--muted); }
+
+  /* ---- the record table ---- */
+  .record { grid-column: 1 / -1; margin-top: 24px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 660px; }
+  th {
+    font-size: 12px; font-weight: 500; color: var(--muted); text-align: left;
+    border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
+    padding: 8px 14px 8px 0;
+  }
+  th.n, td.n { text-align: right; }
+  td { padding: 10px 14px 10px 0; border-bottom: 1.5px solid var(--rule); vertical-align: top; }
+  td.n { white-space: nowrap; }
+  td .views { font-weight: 500; }
+  td.rank { color: var(--muted); }
+  td.date { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+  /* ---- the read ---- */
+  .read-list { counter-reset: read; max-width: 620px; }
+  .read-item { display: flex; gap: 16px; margin-bottom: 22px; }
+  .read-item:last-child { margin-bottom: 0; }
+  .read-item::before {
+    counter-increment: read; content: counter(read, decimal-leading-zero);
+    flex: none; color: var(--blood); font-weight: 500; font-size: 13px; padding-top: 2px;
+  }
+  .read-item p { margin: 0; }
+
+  .method { margin-top: 104px; font-size: 12px; color: var(--muted); max-width: 620px; }
+  .method p { margin-bottom: 8px; }
+
+  footer {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-top: 120px; padding-top: 16px;
+    border-top: 1.5px solid var(--ink);
+    font-size: 13px;
+  }
+  footer p { margin: 0; }
+
+  @media (max-width: 720px) {
+    .filetag { margin-top: 64px; }
+    section { grid-template-columns: 1fr; row-gap: 0; margin-top: 80px; }
+    .gutter h2 { border-top: none; padding-top: 0; margin-bottom: 12px; }
+    .gutter .sec-num { display: inline; margin-right: 1ch; }
+    .content { border-top: none; padding-top: 0; }
+    .row-line .leader { display: none; }
+    .usage { flex-wrap: wrap; gap: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { opacity: 1; animation: none; }
+  }
+</style>
+</head>
+<body>
+<div id="tip"></div>
+<div class="page">
+
+  <nav>
+    <a class="wordmark" href="/">paul scrivens</a>
+    <span class="links">
+      <a href="/#letters">letters</a>
+      <a href="/#brands">the brands</a>
+    </span>
+  </nav>
+
+  <main>
+
+    <p class="filetag">field report · threads · @mrpaulscrivens · pulled aug 5, 2026</p>
+    <h1>the threads ledger<span class="cursor" aria-hidden="true"></span></h1>
+
+    <div class="dek">
+      <p>I pulled every post from two years on Threads and put the numbers in one place. 1,923 posts with real view counts, August 2024 through last week.</p>
+      <p>People mostly show you their wins on these apps. This is the whole file &mdash; the sixteen posts that carried everything, and the fourteen hundred that didn&rsquo;t.</p>
+    </div>
+
+    <div class="topline">
+      <div class="topline-row"><span class="k">total views</span><span class="leader" aria-hidden="true"></span><span class="v">3,275,697</span></div>
+      <div class="topline-row"><span class="k">median post</span><span class="leader" aria-hidden="true"></span><span class="v">363 views</span></div>
+      <div class="topline-row"><span class="k">posts that earned 62% of it all</span><span class="leader" aria-hidden="true"></span><span class="v">16</span></div>
+      <div class="topline-row"><span class="k">2026 median, vs 531 at the peak</span><span class="leader" aria-hidden="true"></span><span class="v blood">215</span></div>
+    </div>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 01</span>the power law</h2>
+      </div>
+      <div class="content">
+        <p>Sixteen posts &mdash; 0.8% of everything I shipped &mdash; earned 62.3% of every view.</p>
+        <p>Meanwhile 40% of my output lives under 300 views and adds up to 4.3% of the total. Half of everything I wrote landed under 363.</p>
+        <p>That&rsquo;s the actual shape of a content account. The feed shows you the sixteen. The other 1,907 are the part nobody screenshots.</p>
+      </div>
+
+      <div class="plate">
+        <div class="plate-title">
+          <span>views tier · share of my posts vs share of my views</span>
+          <span class="legend">
+            <span><i class="key hatch"></i>share of posts</span>
+            <span><i class="key solid"></i>share of views</span>
+          </span>
+        </div>
+        <div id="ladder"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 02</span>the slide</h2>
+      </div>
+      <div class="content">
+        <p>Median views per post, by month. The autumn 2024 run was real. So is everything after it &mdash; a slow leak from 844 down to a floor of 154.</p>
+        <p>The part that stings: January through March 2026 I posted more than I ever have. 113, 132, 176 posts a month. The medians were the worst on record. <strong>Tripling the volume bought me nothing.</strong></p>
+        <p>Then April: 65 posts, median 522. Fewer swings, better swings. That month is the argument.</p>
+      </div>
+
+      <div class="plate">
+        <div class="plate-title"><span>median views per post · monthly</span><span>hover for detail</span></div>
+        <div id="trend"></div>
+      </div>
+      <div class="plate">
+        <div class="plate-title"><span>posts shipped · monthly</span></div>
+        <div id="volume"></div>
+        <p class="chart-note">the marked bars are the volume push &mdash; most posts ever shipped, worst medians ever recorded.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 03</span>the first line</h2>
+      </div>
+      <div class="content">
+        <p>Same account, same audience, grouped by what the opening line does. Openers with a question or a hard number beat their counterparts by roughly 30% at the median.</p>
+        <p>Negation openers (&ldquo;nobody tells you&hellip;&rdquo;, &ldquo;the richest person wasn&rsquo;t&hellip;&rdquo;) run <em>below</em> the field at the median &mdash; and hold the two biggest outliers on the account. They&rsquo;re lottery tickets. Numbers and questions are wages.</p>
+      </div>
+
+      <div class="plate">
+        <div class="plate-title">
+          <span>median views · opener has the feature vs doesn&rsquo;t</span>
+          <span class="legend">
+            <span><i class="key solid"></i>with</span>
+            <span><i class="key hatch"></i>without</span>
+          </span>
+        </div>
+        <div id="hooks"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 04</span>the unused arsenal</h2>
+      </div>
+      <div class="content">
+        <p>Four openers with a proven record across the whole corpus. Every one clears the 363 baseline, some by 2&ndash;3&times;. And every one is rare &mdash; I found the moves that work and then mostly stopped making them.</p>
+        <p>Writing this page is how I found out.</p>
+      </div>
+
+      <div class="arsenal">
+        <div class="arsenal-row">
+          <div class="row-line">
+            <span class="num">01</span>
+            <span class="name">the family scene</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="stat"><strong>984</strong> median <span class="muted">· 2.7&times; baseline</span></span>
+          </div>
+          <p class="desc"><span class="ex">&ldquo;Had a conversation with my son yesterday that hit different.&rdquo;</span> &mdash; best 99,639 views. The highest floor on the account.</p>
+          <div class="usage"><span>used 16 times in 2 yrs</span><span>&rsquo;24: 8</span><span>&rsquo;25: 4</span><span>&rsquo;26: 4</span></div>
+        </div>
+        <div class="arsenal-row">
+          <div class="row-line">
+            <span class="num">02</span>
+            <span class="name">named enemy, named price</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="stat"><strong>734</strong> median <span class="muted">· 2.0&times; baseline</span></span>
+          </div>
+          <p class="desc"><span class="ex">&ldquo;Every business &lsquo;guru&rsquo; is teaching you to scale your content.&rdquo;</span> &mdash; best 23,952 views.</p>
+          <div class="usage"><span>used 10 times in 2 yrs</span><span>&rsquo;24: 2</span><span>&rsquo;25: 7</span><span>&rsquo;26: 1</span></div>
+        </div>
+        <div class="arsenal-row">
+          <div class="row-line">
+            <span class="num">03</span>
+            <span class="name">reversal of a known name</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="stat"><strong>606</strong> median <span class="muted">· 1.7&times; baseline</span></span>
+          </div>
+          <p class="desc"><span class="ex">&ldquo;The richest person in history wasn&rsquo;t Elon or Bezos.&rdquo;</span> &mdash; best 230,018 views. The biggest ceiling of any move I have.</p>
+          <div class="usage"><span>used 8 times in 2 yrs</span><span>&rsquo;24: 4</span><span>&rsquo;25: 1</span><span>&rsquo;26: 3</span></div>
+        </div>
+        <div class="arsenal-row">
+          <div class="row-line">
+            <span class="num">04</span>
+            <span class="name">confession with a number</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="stat"><strong>488</strong> median <span class="muted">· 1.3&times; baseline</span></span>
+          </div>
+          <p class="desc"><span class="ex">&ldquo;When I was 22 I defaulted on 5 different credit cards.&rdquo;</span> &mdash; best 111,186 views. The only proven move I actually run at volume.</p>
+          <div class="usage"><span>used 85 times in 2 yrs</span><span>&rsquo;24: 10</span><span>&rsquo;25: 42</span><span>&rsquo;26: 33</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 05</span>the record</h2>
+      </div>
+      <div class="content">
+        <p>The twelve biggest posts, with links. Ten of the twelve come from one six-month window. Read the first lines in order &mdash; it&rsquo;s the arsenal above, working.</p>
+      </div>
+
+      <div class="record">
+        <table>
+          <thead><tr><th></th><th>opening line</th><th class="n">views</th><th class="n">likes</th><th class="n">reposts</th><th>date</th></tr></thead>
+          <tbody id="hall"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="gutter">
+        <h2><span class="sec-num">sec. 06</span>the read</h2>
+      </div>
+      <div class="content">
+        <div class="read-list">
+          <div class="read-item"><p><strong>Reach is bought at the first line.</strong> Question and number openers carry a ~30% premium and sit in under 20% of my output. The reversal move &mdash; my biggest ceiling &mdash; got used 8 times in two years.</p></div>
+          <div class="read-item"><p><strong>Volume was the wrong lever.</strong> My highest-output quarter produced my worst medians. The rep that compounds is the opener, and shipping more of the same opener is the same rep.</p></div>
+          <div class="read-item"><p><strong>The floor is family and the ceiling is history.</strong> Family scenes: 984 median, 16 uses. History reversals: 230k best, 8 uses. I know exactly what next month&rsquo;s posts look like. Whether I write them is a different problem.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="method">
+      <p>method &mdash; 2,818 posts pulled from the Threads API on aug 5, 2026. 473 early posts excluded because their view counters predate insights tracking and read zero; empty and no-data posts also dropped. every number above runs on the remaining 1,923. hook features detected on the first line only, so the arsenal counts are conservative.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="muted">the brands wear the costumes. paul doesn&rsquo;t.</p>
+    <p class="muted">counted in python. set in jetbrains mono. one red.</p>
+  </footer>
+
+</div>
+
+<script>
+const D = {
+  monthly: [{"month":"2024-08","count":72,"median":284,"total":30800},{"month":"2024-09","count":99,"median":335,"total":1056302},{"month":"2024-10","count":81,"median":335,"total":189622},{"month":"2024-11","count":77,"median":619,"total":744376},{"month":"2024-12","count":77,"median":844,"total":187625},{"month":"2025-01","count":96,"median":582,"total":124198},{"month":"2025-02","count":63,"median":554,"total":89344},{"month":"2025-03","count":96,"median":634,"total":172731},{"month":"2025-04","count":69,"median":586,"total":97433},{"month":"2025-05","count":106,"median":414,"total":52870},{"month":"2025-06","count":88,"median":434,"total":69796},{"month":"2025-07","count":42,"median":462,"total":26517},{"month":"2025-08","count":68,"median":354,"total":34484},{"month":"2025-09","count":73,"median":335,"total":31772},{"month":"2025-10","count":87,"median":258,"total":28319},{"month":"2025-11","count":20,"median":202,"total":5847},{"month":"2025-12","count":14,"median":342,"total":6393},{"month":"2026-01","count":113,"median":154,"total":26928},{"month":"2026-02","count":132,"median":162,"total":32409},{"month":"2026-03","count":176,"median":188,"total":64395},{"month":"2026-04","count":65,"median":522,"total":79638},{"month":"2026-05","count":65,"median":283,"total":39891},{"month":"2026-06","count":88,"median":300,"total":59142},{"month":"2026-07","count":45,"median":243,"total":19705},{"month":"2026-08","count":11,"median":303,"total":5160}],
+  ladder: [{"label":"under 100","n":85,"posts":4.4,"views":0.2},{"label":"100–299","n":681,"posts":35.4,"views":4.1},{"label":"300–999","n":922,"posts":47.9,"views":14.8},{"label":"1k–5k","n":188,"posts":9.8,"views":10.6},{"label":"5k–20k","n":31,"posts":1.6,"views":8.0},{"label":"20k+","n":16,"posts":0.8,"views":62.3}],
+  hooks: [
+    {label:"question", n:147, with:465, without:359},
+    {label:"hard number", n:352, with:450, without:355},
+    {label:"first-person", n:423, with:376, without:362},
+    {label:"negation", n:360, with:336, without:373}
+  ],
+  hall: [
+    {views:858788,likes:529,reposts:68,date:"sep 25 ’24",first:"There was a study on hyper-successful people.",url:"https://www.threads.com/@mrpaulscrivens/post/DAW3h1kyaj2"},
+    {views:230018,likes:6994,reposts:335,date:"nov 26 ’24",first:"The richest person in history wasn’t Elon or Bezos.",url:"https://www.threads.com/@mrpaulscrivens/post/DC2E7w0y_aS"},
+    {views:149594,likes:432,reposts:30,date:"sep 27 ’24",first:"If you have ADHD (maybe some Autism sprinkled in) then let’s talk about building a $100k+ business by yourself.",url:"https://www.threads.com/@mrpaulscrivens/post/DAblbhkSaT3"},
+    {views:118954,likes:4876,reposts:371,date:"nov 25 ’24",first:"The most disruptive creator of the 1800s wasn’t a businessman or inventor.",url:"https://www.threads.com/@mrpaulscrivens/post/DCze25FyvpJ"},
+    {views:111186,likes:2512,reposts:186,date:"nov 24 ’24",first:"I spent 20 years stressing about creating “original” content only to realize the Romans figured this out 2,000 years ago.",url:"https://www.threads.com/@mrpaulscrivens/post/DCxAoSqz_H8"},
+    {views:99639,likes:5316,reposts:181,date:"nov 09 ’24",first:"Had a conversation with my son yesterday that hit different.",url:"https://www.threads.com/@mrpaulscrivens/post/DCKIejNPh2T"},
+    {views:91894,likes:4794,reposts:641,date:"oct 24 ’24",first:"This is the video for me. I’ll play it daily.",url:"https://www.threads.com/@mrpaulscrivens/post/DBfQYvOOZLX"},
+    {views:84560,likes:206,reposts:8,date:"nov 29 ’24",first:"Nobody tells you that a Roman dude from 2,000 years ago figured out why most businesses fail today.",url:"https://www.threads.com/@mrpaulscrivens/post/DC9mscpPCKn"},
+    {views:66467,likes:2946,reposts:165,date:"mar 18 ’25",first:"I have a theory that people with ADHD get more out of AI than neurotypicals.",url:"https://www.threads.com/@mrpaulscrivens/post/DHUwvTQxrGH"},
+    {views:60070,likes:1616,reposts:167,date:"dec 05 ’24",first:"I’m not going to plan 2025. I’m going to build it.",url:"https://www.threads.com/@mrpaulscrivens/post/DDLZUACPDgS"},
+    {views:41431,likes:62,reposts:3,date:"jan 02 ’25",first:"AI is going to ruin content for you in 2025.",url:"https://www.threads.com/@mrpaulscrivens/post/DEVGBNhvRlf"},
+    {views:29241,likes:594,reposts:11,date:"feb 06 ’25",first:"When I sit down to think about it, it’s crazy how much money Disney makes because of trash cans.",url:"https://www.threads.com/@mrpaulscrivens/post/DFvV_oDPKI3"}
+  ]
+};
+
+const INK = "#1A1A1A", BLOOD = "#8B1A1A", MUTED = "#7C7C7A", GRID = "rgba(26,26,26,.12)";
+const fmt = n => n >= 1000000 ? (n/1000000).toFixed(1)+"M" : n >= 10000 ? Math.round(n/1000)+"k" : n >= 1000 ? (n/1000).toFixed(1)+"k" : ""+n;
+const tip = document.getElementById("tip");
+function showTip(html, x, y){
+  tip.innerHTML = html; tip.style.display = "block";
+  const w = tip.offsetWidth, vw = window.innerWidth;
+  tip.style.left = Math.min(x+16, vw-w-12) + "px";
+  tip.style.top  = (y+18) + "px";
+}
+function hideTip(){ tip.style.display = "none"; }
+const S = "http://www.w3.org/2000/svg";
+function el(name, attrs, parent){
+  const e = document.createElementNS(S, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function addHatch(svg, id){
+  const defs = el("defs", {}, svg);
+  const pat = el("pattern", {id, width:5, height:5, patternUnits:"userSpaceOnUse", patternTransform:"rotate(45)"}, defs);
+  el("rect", {width:5, height:5, fill:"none"}, pat);
+  el("line", {x1:0, y1:0, x2:0, y2:5, stroke:INK, "stroke-width":1.4}, pat);
+  return `url(#${id})`;
+}
+
+/* ---------- sec 01: the ladder ---------- */
+(function(){
+  const mount = document.getElementById("ladder");
+  const W=852, rowH=56, padL=96, padR=64, H=D.ladder.length*rowH+28;
+  const svg = el("svg", {viewBox:`0 0 ${W} ${H}`}, mount);
+  const hatch = addHatch(svg, "h1");
+  const max=70, scale = v => (W-padL-padR)*v/max;
+  [0,20,40,60].forEach(v=>{
+    el("line",{x1:padL+scale(v),y1:4,x2:padL+scale(v),y2:H-22,stroke:GRID,"stroke-width":1},svg);
+    el("text",{x:padL+scale(v),y:H-6,"text-anchor":"middle",class:"axis"},svg).textContent=v+"%";
+  });
+  D.ladder.forEach((d,i)=>{
+    const y=i*rowH+8, bh=14;
+    el("text",{x:padL-10,y:y+bh+4,"text-anchor":"end",class:"axis",fill:INK},svg).textContent=d.label;
+    el("rect",{x:padL,y:y,width:Math.max(scale(d.posts),1.5),height:bh,fill:hatch,stroke:INK,"stroke-width":1},svg);
+    el("rect",{x:padL,y:y+bh+3,width:Math.max(scale(d.views),1.5),height:bh,fill:d.views>=60?BLOOD:INK},svg);
+    el("text",{x:padL+Math.max(scale(d.posts),1.5)+8,y:y+bh-2,class:"axis"},svg).textContent=d.posts+"%";
+    const t=el("text",{x:padL+Math.max(scale(d.views),1.5)+8,y:y+2*bh+2,class:"dlabel"},svg);
+    t.textContent=d.views+"%"; if(d.views>=60) t.setAttribute("fill",BLOOD);
+    const hit=el("rect",{x:0,y:y-4,width:W,height:rowH-4,fill:"transparent"},svg);
+    hit.addEventListener("mousemove",e=>showTip(`<b>${d.label} views</b><br>${d.n} posts (${d.posts}% of output)<br>${d.views}% of all views`,e.clientX,e.clientY));
+    hit.addEventListener("mouseleave",hideTip);
+  });
+})();
+
+/* ---------- sec 02: the trend ---------- */
+(function(){
+  const mount = document.getElementById("trend");
+  const W=852,H=270,padL=52,padR=16,padT=16,padB=32;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`},mount);
+  const m=D.monthly, maxY=900;
+  const x=i=>padL+(W-padL-padR)*i/(m.length-1);
+  const y=v=>padT+(H-padT-padB)*(1-v/maxY);
+  [0,300,600,900].forEach(v=>{
+    el("line",{x1:padL,y1:y(v),x2:W-padR,y2:y(v),stroke:GRID,"stroke-width":1},svg);
+    el("text",{x:padL-10,y:y(v)+4,"text-anchor":"end",class:"axis"},svg).textContent=v;
+  });
+  m.forEach((d,i)=>{
+    if(d.month.endsWith("-01")||i===0){
+      el("text",{x:x(i),y:H-8,"text-anchor":"middle",class:"axis",fill:INK},svg).textContent=d.month.slice(0,4);
+      el("line",{x1:x(i),y1:padT,x2:x(i),y2:H-padB,stroke:GRID,"stroke-width":1},svg);
+    }
+  });
+  el("line",{x1:padL,y1:y(363),x2:W-padR,y2:y(363),stroke:MUTED,"stroke-width":1,"stroke-dasharray":"2 5"},svg);
+  el("text",{x:W-padR,y:y(363)-6,"text-anchor":"end",class:"axis"},svg).textContent="all-time median 363";
+  const path=m.map((d,i)=>`${i?"L":"M"}${x(i)} ${y(d.median)}`).join(" ");
+  el("path",{d:path,fill:"none",stroke:INK,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"},svg);
+  const marks=[{i:4,txt:"dec ’24 · 844",dy:-12},{i:19,txt:"mar ’26 · 188",dy:24},{i:20,txt:"apr ’26 · 522",dy:-12}];
+  marks.forEach(({i,txt,dy})=>{
+    el("circle",{cx:x(i),cy:y(m[i].median),r:4,fill:BLOOD,stroke:"#F4F4F0","stroke-width":2},svg);
+    el("text",{x:x(i),y:y(m[i].median)+dy,"text-anchor":"middle",class:"dlabel"},svg).textContent=txt;
+  });
+  const cursor=el("line",{x1:0,y1:padT,x2:0,y2:H-padB,stroke:INK,"stroke-width":1,opacity:0},svg);
+  const dot=el("circle",{r:4.5,fill:INK,stroke:"#F4F4F0","stroke-width":2,opacity:0},svg);
+  const hit=el("rect",{x:padL,y:0,width:W-padL-padR,height:H,fill:"transparent"},svg);
+  hit.addEventListener("mousemove",e=>{
+    const r=svg.getBoundingClientRect();
+    const px=(e.clientX-r.left)*W/r.width;
+    const i=Math.max(0,Math.min(m.length-1,Math.round((px-padL)/((W-padL-padR)/(m.length-1)))));
+    cursor.setAttribute("x1",x(i));cursor.setAttribute("x2",x(i));cursor.setAttribute("opacity",.2);
+    dot.setAttribute("cx",x(i));dot.setAttribute("cy",y(m[i].median));dot.setAttribute("opacity",1);
+    showTip(`<b>${m[i].month}</b><br>median ${m[i].median} views<br>${m[i].count} posts · ${fmt(m[i].total)} total views`,e.clientX,e.clientY);
+  });
+  hit.addEventListener("mouseleave",()=>{cursor.setAttribute("opacity",0);dot.setAttribute("opacity",0);hideTip();});
+})();
+
+/* ---------- sec 02b: volume ---------- */
+(function(){
+  const mount = document.getElementById("volume");
+  const W=852,H=140,padL=52,padR=16,padT=8,padB=28;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`},mount);
+  const hatch=addHatch(svg,"h2");
+  const m=D.monthly,maxY=180;
+  const bw=(W-padL-padR)/m.length;
+  const y=v=>padT+(H-padT-padB)*(1-v/maxY);
+  [0,90,180].forEach(v=>{
+    el("line",{x1:padL,y1:y(v),x2:W-padR,y2:y(v),stroke:GRID,"stroke-width":1},svg);
+    el("text",{x:padL-10,y:y(v)+4,"text-anchor":"end",class:"axis"},svg).textContent=v;
+  });
+  m.forEach((d,i)=>{
+    const bx=padL+i*bw+1, w=bw-2, h=(H-padT-padB)*d.count/maxY;
+    const hot=d.month>="2026-01"&&d.month<="2026-03";
+    const bar=el("rect",{x:bx,y:y(d.count),width:w,height:Math.max(h,2),
+      fill:hot?"none":INK, stroke:hot?BLOOD:"none","stroke-width":hot?1.5:0},svg);
+    if(hot) bar.setAttribute("fill","none");
+    bar.addEventListener("mousemove",e=>showTip(`<b>${d.month}</b><br>${d.count} posts · median ${d.median}`,e.clientX,e.clientY));
+    bar.addEventListener("mouseleave",hideTip);
+    if(d.month.endsWith("-01")||i===0)
+      el("text",{x:bx,y:H-6,class:"axis",fill:INK},svg).textContent=d.month.slice(0,4);
+  });
+})();
+
+/* ---------- sec 03: hooks ---------- */
+(function(){
+  const mount = document.getElementById("hooks");
+  const W=852,H=260,padL=52,padR=16,padT=24,padB=50;
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`},mount);
+  const hatch=addHatch(svg,"h3");
+  const maxY=500, y=v=>padT+(H-padT-padB)*(1-v/maxY);
+  [0,250,500].forEach(v=>{
+    el("line",{x1:padL,y1:y(v),x2:W-padR,y2:y(v),stroke:GRID,"stroke-width":1},svg);
+    el("text",{x:padL-10,y:y(v)+4,"text-anchor":"end",class:"axis"},svg).textContent=v;
+  });
+  const gw=(W-padL-padR)/D.hooks.length, bw=50;
+  D.hooks.forEach((d,i)=>{
+    const cx=padL+gw*i+gw/2;
+    const winner = d.with > d.without;
+    const b1=el("rect",{x:cx-bw-1,y:y(d.with),width:bw,height:(H-padT-padB)*d.with/maxY,fill:INK},svg);
+    const b2=el("rect",{x:cx+1,y:y(d.without),width:bw,height:(H-padT-padB)*d.without/maxY,fill:hatch,stroke:INK,"stroke-width":1},svg);
+    const t1=el("text",{x:cx-bw/2-1,y:y(d.with)-7,"text-anchor":"middle",class:"dlabel"},svg);
+    t1.textContent=d.with;
+    if(i<2) t1.setAttribute("fill",BLOOD);
+    el("text",{x:cx+bw/2+1,y:y(d.without)-7,"text-anchor":"middle",class:"axis"},svg).textContent=d.without;
+    el("text",{x:cx,y:H-26,"text-anchor":"middle",class:"axis",fill:INK},svg).textContent=d.label;
+    el("text",{x:cx,y:H-11,"text-anchor":"middle",class:"axis"},svg).textContent=`n=${d.n}`;
+    [b1,b2].forEach((b,j)=>{
+      b.addEventListener("mousemove",e=>showTip(`<b>${d.label} opener — ${j?"without":"with"}</b><br>median ${j?d.without:d.with} views${j?"":`<br>${d.n} posts have it`}`,e.clientX,e.clientY));
+      b.addEventListener("mouseleave",hideTip);
+    });
+  });
+})();
+
+/* ---------- sec 05: the record ---------- */
+(function(){
+  const tb=document.getElementById("hall");
+  D.hall.forEach((d,i)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="rank">${String(i+1).padStart(2,"0")}</td>
+      <td><a href="${d.url}" target="_blank" rel="noopener">${d.first}</a></td>
+      <td class="n"><span class="views">${d.views.toLocaleString("en-US")}</span></td>
+      <td class="n">${d.likes.toLocaleString("en-US")}</td>
+      <td class="n">${d.reposts.toLocaleString("en-US")}</td>
+      <td class="date">${d.date}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+</script>
+</body>
+</html>
